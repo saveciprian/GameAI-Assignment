@@ -32,5 +32,14 @@ namespace AI_Strategy
          * the order in which soldiers will plan and perform their movement.
          */
         public abstract List<Soldier> SortedSoldierArray(List<Soldier> unsortedList);
+
+        /*
+         * called by the game play environment. The order in which the array is returned here is
+         * the order in which towers will plan and perform their action.
+         */
+        public abstract List<Tower> SortedTowerArray(List<Tower> unsortedList);
+
+
+
     }
 }

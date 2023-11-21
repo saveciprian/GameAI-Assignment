@@ -19,7 +19,7 @@ namespace AI_TowerDefense
     {
         public static bool DISPLAY_LOG_MESSAGES = true;
         public static int NORMAL_SPEED_MS = 500;
-        public static int FAST_SPEED_MS = 200;
+        public static int FAST_SPEED_MS = 5;
 
         private bool fastSpeedActivated = false;
 
@@ -160,6 +160,22 @@ namespace AI_TowerDefense
             if (_playerB.EnemyLane == lane)
             {
                 return _playerBStrategy.SortedSoldierArray(unsortedList);
+            }
+            return unsortedList;
+        }
+
+        public List<Tower> SortedTowerArray(PlayerLane lane, List<Tower> unsortedList)
+
+        {
+
+            if (_playerA.EnemyLane == lane)
+            {
+                return _playerAStrategy.SortedTowerArray(unsortedList);
+            }
+
+            if (_playerB.EnemyLane == lane)
+            {
+                return _playerBStrategy.SortedTowerArray(unsortedList);
             }
             return unsortedList;
         }

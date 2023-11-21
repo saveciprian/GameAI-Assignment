@@ -115,7 +115,8 @@ namespace GameFramework
          */
         public void TowerAction()
         {
-            foreach (Tower tower in towers.ToArray())
+            List<Tower> sortedTowers = TowerDefense.Instance.SortedTowerArray(this, towers);
+            foreach (Tower tower in sortedTowers.ToArray())
             {
                 tower.AttackEnemyInRange();
             }

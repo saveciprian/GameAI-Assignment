@@ -90,5 +90,17 @@ namespace AI_Strategy
         {
             return unsortedList;
         }
+
+        /*
+         * called by the game play environment. The order in which the array is returned here is
+         * the order in which towers will plan and perform their action.
+         *
+         * The default implementation does not change the order. Do better!
+         */
+        public override List<Tower> SortedTowerArray(List<Tower> unsortedList)
+
+        {
+            return unsortedList;
+        }
     }
 }
