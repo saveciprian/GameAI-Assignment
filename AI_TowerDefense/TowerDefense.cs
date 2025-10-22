@@ -59,6 +59,8 @@ namespace AI_TowerDefense
 
         public static TowerDefense Instance => instance ??= new TowerDefense();
 
+        public int Turns { get => turns; }
+
         /*
          * prints the current game state.
          */
