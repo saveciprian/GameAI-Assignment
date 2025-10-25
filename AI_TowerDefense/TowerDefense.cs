@@ -17,7 +17,7 @@ namespace AI_TowerDefense
      */
     public class TowerDefense
     {
-        public static bool DISPLAY_LOG_MESSAGES = true;
+        public static bool DISPLAY_LOG_MESSAGES = false;
         public static int NORMAL_SPEED_MS = 500;
         public static int FAST_SPEED_MS = 5;
 
@@ -53,7 +53,7 @@ namespace AI_TowerDefense
             // here you replace the selected strategy with your strategy class(es).
             // Your strategy should at least be able to beat random!
             
-            _playerAStrategy = new RandomStrategyLoggerDemo(_playerA);
+            _playerAStrategy = new LeTudorStrategy(_playerA);
             _playerBStrategy = new RandomStrategyLoggerDemo(_playerB);
         }
 
