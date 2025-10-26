@@ -48,14 +48,14 @@ namespace AI_Strategy
         {
 
           //DebugLoger.Log(Tower.GetNextTowerCosts(defendLane));
-            DebugLogger.Log("#" + messageCounter + " Deployed Soldier!");
-            messageCounter++;
+            // DebugLogger.Log("#" + messageCounter + " Deployed Soldier!");
+            // messageCounter++;
 
             while (messageCounter is > 5 and <= 15)
             {
-                DebugLogger.Log("#" + messageCounter + " " + random.Next(1000), true);
+                // DebugLogger.Log("#" + messageCounter + " " + random.Next(1000), true);
                 //DebugLoger.Log("#" + messageCounter + ": " + random.Next(1000));
-                messageCounter++;
+                // messageCounter++;
 
                 System.Threading.Thread.Sleep(50);
             }

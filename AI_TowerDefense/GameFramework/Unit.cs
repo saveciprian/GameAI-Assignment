@@ -51,7 +51,7 @@ namespace GameFramework
         public int Health => health;
 
         /*
-         * returns the the type of this unit.
+         * returns the type of this unit.
          */
         public string Type => type;
 

@@ -17,7 +17,7 @@ namespace AI_TowerDefense
      */
     public class TowerDefense
     {
-        public static bool DISPLAY_LOG_MESSAGES = false;
+        public static bool DISPLAY_LOG_MESSAGES = true;
         public static int NORMAL_SPEED_MS = 500;
         public static int FAST_SPEED_MS = 5;
 

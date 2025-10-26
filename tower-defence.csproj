@@ -59,7 +59,10 @@
     <Compile Include="AI_TowerDefense\GameFramework\Soldier.cs" />
     <Compile Include="AI_TowerDefense\GameFramework\Tower.cs" />
     <Compile Include="AI_TowerDefense\GameFramework\Unit.cs" />
+    <Compile Include="AI_TowerDefense\MySolution\Graph.cs" />
     <Compile Include="AI_TowerDefense\MySolution\LeTudorStrategy.cs" />
+    <Compile Include="AI_TowerDefense\MySolution\Node.cs" />
+    <Compile Include="AI_TowerDefense\MySolution\PriorityQ.cs" />
     <Compile Include="AI_TowerDefense\MySolution\Soldat.cs" />
     <Compile Include="AI_TowerDefense\MySolution\Turn.cs" />
     <Compile Include="AI_TowerDefense\Program.cs" />
