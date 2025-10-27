@@ -12,13 +12,9 @@ namespace AI_Strategy
         
         public override bool Equals(object obj)
         {
-            if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
-            
-            Node other = (Node)obj;
-            return x == other.x && y == other.y;
+            if (obj is Node other)
+                return this.x == other.x && this.y == other.y;
+            return false;
         }
         
         public override int GetHashCode()

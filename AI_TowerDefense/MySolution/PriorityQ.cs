@@ -44,6 +44,22 @@ namespace AI_Strategy
             elements.RemoveAt(bestIndex);
             return bestItem;
         }
+        
+        public T DequeueMax()
+        {
+            int bestIndex = 0;
+            for (int i = 1; i < elements.Count; i++)
+            {
+                if (elements[i].Priority > elements[bestIndex].Priority)
+                {
+                    bestIndex = i;
+                }
+            }
+        
+            T bestItem = elements[bestIndex].Item;
+            elements.RemoveAt(bestIndex);
+            return bestItem;
+        }
     
         public bool TryDequeue(out T item)
         {

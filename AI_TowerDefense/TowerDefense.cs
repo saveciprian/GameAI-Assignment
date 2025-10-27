@@ -54,6 +54,7 @@ namespace AI_TowerDefense
             // Your strategy should at least be able to beat random!
             
             _playerAStrategy = new LeTudorStrategy(_playerA);
+            // _playerBStrategy = new LeTudorStrategy(_playerB);
             _playerBStrategy = new RandomStrategyLoggerDemo(_playerB);
         }
 

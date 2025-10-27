@@ -10,7 +10,7 @@ namespace AI_Strategy
     public class LeTudorStrategy : AbstractStrategy
     {
         private static Random random = new Random();
-        protected Graph graph;
+        public static Graph Graph;
         
         public LeTudorStrategy(Player player) : base(player)
         {
@@ -62,7 +62,6 @@ namespace AI_Strategy
                     {
                         positioned = true;
                         
-                        // graph.DebugPrint(3, 5);
                         player.TryBuySoldier<Soldat>(x);
 
                     }
@@ -95,7 +94,7 @@ namespace AI_Strategy
 
         public void CreateGraph()
         {
-            this.graph = new Graph(this.player);
+            Graph = new Graph(this.player);
         }
     }
 }

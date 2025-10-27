@@ -14,6 +14,12 @@ namespace AI_Strategy
             Home,
             Enemy
         }
+
+        public enum Behavior
+        {
+            Attack,
+            Move
+        }
         
         public Graph(Player player)
         {
@@ -28,18 +34,45 @@ namespace AI_Strategy
             }
         }
 
-        public void CheckColumns()
+        public bool GetShortestPath(Node start, out List<Node> path)
         {
+            List<PathResult> paths = new List<PathResult>();
             for (int x = 0; x < PlayerLane.WIDTH; x++)
             {
-                Node top = nodes[x];
-                Node bottom = nodes[(PlayerLane.HEIGHT - 1) * PlayerLane.WIDTH + x];
-                this.GetPath(top, bottom, Mode.Enemy);
+                Node end = nodes[(PlayerLane.HEIGHT - 1) * PlayerLane.WIDTH + x];
+                PathResult result = this.GetPath(start, end, Mode.Enemy, Behavior.Move);
+
+                if (result.PathFound)
+                {
+                    paths.Add(result);
+                }
             }
-            DebugLogger.Log("-----------------------------------");
+
+            if (paths.Count == 0)
+            {
+                path = new List<Node>();
+                return false;
+            }
+            
+            paths.Sort((a, b) => a.TotalCost.CompareTo(b.TotalCost));
+            path = paths[0].path;
+            return true;
+        }
+        
+        public bool GetPathToClosestEnemy(Node start, Node target, out List<Node> path)
+        {
+            PathResult result = this.GetPath(start, target, Mode.Enemy, Behavior.Attack);
+            if (result.PathFound)
+            {
+                path = result.path;
+                return true;    
+            }
+            
+            path = new List<Node>();
+            return false;   
         }
 
-        public void GetPath(Node start, Node end, Mode mode)
+        public PathResult GetPath(Node start, Node end, Mode mode, Behavior behvaior)
         {
             PriorityQ<Node> frontier = new PriorityQ<Node>();
             frontier.Enqueue(start, 0);
@@ -48,9 +81,18 @@ namespace AI_Strategy
             cameFrom.Add(start, null);
             costSoFar.Add(start, 0);
             
+            HashSet<Node> visited = new HashSet<Node>();
+            
             while (frontier.Count > 0)
             {
-                Node current = frontier.Dequeue();
+                Node current = new Node(0, 0);
+                
+                if (behvaior == Behavior.Move) current = frontier.Dequeue();
+                else current = frontier.DequeueMax();
+                
+                if (visited.Contains(current)) continue;
+                visited.Add(current);
+                
                 if (current == end)
                 {
                     break;
@@ -59,6 +101,7 @@ namespace AI_Strategy
                 foreach (Node next in this.GetNeighbors(current, mode))
                 {
                     int newCost = costSoFar[current] + next.cost;
+                    
                     if (!costSoFar.ContainsKey(next) || newCost < costSoFar[next])
                     {
                         costSoFar[next] = newCost;
@@ -66,17 +109,39 @@ namespace AI_Strategy
                         frontier.Enqueue(next, priority);
                         cameFrom[next] = current;
                     }
+
                 }
             }
 
-            if (costSoFar.ContainsKey(end))
+            if (!costSoFar.ContainsKey(end))
             {
-                DebugLogger.Log("Cost to reach end: " + costSoFar[end] + "");
+                // List<Node> shortPath = new List<Node>();
+                // Node currentShort = lastNode;
+                // while (currentShort != null)
+                // {
+                //     shortPath.Add(currentShort);
+                //     currentShort = cameFrom[currentShort];
+                // }
+                //
+                // shortPath.Reverse();
+                // return new PathResult(shortPath, shortPath[shortPath.Count - 1].cost, false);
+                return new PathResult(new List<Node>(), 0, false);   
             }
-            else
+
+            List<Node> path = new List<Node>();
+            Node currentNode = end;
+            while (currentNode != null)
             {
-                DebugLogger.Log("No path found!");
+                path.Add(currentNode);
+                currentNode = cameFrom[currentNode];
             }
+
+            path.Reverse();
+            
+            int totalCost = costSoFar[end];
+            DebugLogger.Log("Cost to reach end node: " + totalCost);
+            
+            return new PathResult(path, totalCost, true);
         }
         
         public Node GetNode(int x, int y)
@@ -124,11 +189,11 @@ namespace AI_Strategy
 
                 if (mode == Mode.Enemy)
                 {
-                    if (player.EnemyLane.GetCellAt(neighbor.x, neighbor.y).Unit == null)
+                    if (player.EnemyLane.GetCellAt(neighbor.x, neighbor.y).Unit == null || player.EnemyLane.GetCellAt(neighbor.x, neighbor.y).Unit.Type == "S")
                     {
                         neighbor.cost = GetNodeCost(neighbor, Mode.Enemy);
                         result.Add(neighbor);
-                    } 
+                    }
                 }
                 else
                 {
@@ -162,8 +227,17 @@ namespace AI_Strategy
                     {
                         if (unit != null && unit.Type == "T" && unit.Health > 0)
                         {
-                            if (Math.Abs(node.x - x) == 2 || Math.Abs(node.y - y) == 2) cost += 2 * unit.Health;
-                            else cost += 1 * unit.Health;
+                            if (Math.Abs(node.x - x) == 2 || Math.Abs(node.y - y) == 2) cost += 50 * unit.Health;
+                            else cost += 100 * unit.Health;
+                        }
+                        else if (unit != null && unit.Type == "S" && unit.Health > 0)
+                        {
+                            // if (Math.Abs(node.x - x) == 2 || Math.Abs(node.y - y) == 2) cost += 0;
+                            // else cost += 0;
+                        }
+                        else
+                        {
+                            // cost = 2;
                         }
                         
                     } 
@@ -221,5 +295,19 @@ namespace AI_Strategy
         //     return false;
         // }
 
+    }
+    
+    public class PathResult
+    {
+        public List<Node> path { get; set; }
+        public int TotalCost { get; set; }
+        public bool PathFound { get; set; }
+            
+        public PathResult(List<Node> path, int totalCost, bool pathFound)
+        {
+            this.path = path;
+            this.TotalCost = totalCost;
+            this.PathFound = pathFound;
+        }
     }
 }
