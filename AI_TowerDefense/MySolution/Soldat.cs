@@ -60,6 +60,12 @@ namespace AI_Strategy
             }
         }
 
+        public void MoveToPosition(int x, int y)
+        {
+            if (MoveTo(x, y)) return;
+            else DefaultMove();
+        }
+
         private void DefaultMove()
         {
             int x = posX;
@@ -80,7 +86,7 @@ namespace AI_Strategy
         
         protected bool TryGetTargetOutsideReach(out Unit unit)
         {
-            int range = 2;
+            int range = 4;
             List<Unit> targetsInRange = new List<Unit>();
             for (int x = posX - range; x <= posX + range; x++)
             {

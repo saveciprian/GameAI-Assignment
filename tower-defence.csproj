@@ -64,6 +64,7 @@
     <Compile Include="AI_TowerDefense\MySolution\Node.cs" />
     <Compile Include="AI_TowerDefense\MySolution\PriorityQ.cs" />
     <Compile Include="AI_TowerDefense\MySolution\Soldat.cs" />
+    <Compile Include="AI_TowerDefense\MySolution\SoldierManager.cs" />
     <Compile Include="AI_TowerDefense\MySolution\Turn.cs" />
     <Compile Include="AI_TowerDefense\Program.cs" />
     <Compile Include="AI_TowerDefense\TowerDefense.cs" />
